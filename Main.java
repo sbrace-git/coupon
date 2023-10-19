@@ -9,23 +9,43 @@ public class Main {
 //        int[] goodPrices = {3, 4};
 //        int[] coupons = {3, 1, 2, 1, 1, 1};
 
+//        int[] goodPrices = {3, 4};
+//        int[] coupons = {3, 2, 2};
+
+//        int[] goodPrices = {3, 3, 3, 10};
+//        int[] coupons = {3, 3, 3, 5};
+
 //        int[] goodPrices = {4};
 //        int[] coupons = {3, 2, 2};
 
-        List<Good> goodList = Arrays.stream(goodPrices).boxed().sorted(Comparator.reverseOrder())
+
+        List<Good> goodList = Arrays.stream(goodPrices).boxed().sorted()
                 .map(Good::new).collect(Collectors.toList());
         List<Coupon> unusedCouponsList = Arrays.stream(coupons).boxed().sorted(Comparator.reverseOrder())
                 .map(Coupon::new).collect(Collectors.toList());
 
         for (Good good : goodList) {
-            for (Iterator<Coupon> iterator = unusedCouponsList.iterator(); iterator.hasNext(); ) {
-                Coupon unusedCoupon = iterator.next();
-                if (unusedCoupon.amount <= good.remaining) {
-                    good.remaining -= unusedCoupon.amount;
-                    good.couponList.add(unusedCoupon);
-                    iterator.remove();
+            int couponAmountMax = 0;
+            List<Coupon> couponListMax = new ArrayList<>();
+            for (int outIndex = 0; outIndex < unusedCouponsList.size(); outIndex++) {
+                int remaining = good.price;
+                List<Coupon> couponList = new ArrayList<>();
+                int couponAmountSum = 0;
+                for (int inIndex = outIndex; inIndex < unusedCouponsList.size(); inIndex++) {
+                    Coupon coupon = unusedCouponsList.get(inIndex);
+                    if (coupon.amount <= remaining) {
+                        remaining -= coupon.amount;
+                        couponAmountSum += coupon.amount;
+                        couponList.add(coupon);
+                    }
+                }
+                if (couponAmountSum >= couponAmountMax) {
+                    couponAmountMax = couponAmountSum;
+                    couponListMax = couponList;
                 }
             }
+            good.couponList = couponListMax;
+            couponListMax.forEach(unusedCouponsList::remove);
         }
 
         for (int i = 0; i < goodList.size(); i++) {
@@ -57,7 +77,6 @@ public class Main {
 
     static class Good {
         int price;
-        int remaining;
         List<Coupon> couponList;
 
         public List<Coupon> getCouponList() {
@@ -66,7 +85,6 @@ public class Main {
 
         Good(int price) {
             this.price = price;
-            this.remaining = price;
             this.couponList = new ArrayList<>();
         }
 
