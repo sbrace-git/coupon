@@ -48,25 +48,6 @@ public class Main {
             couponListMax.forEach(unusedCouponsList::remove);
         }
 
-        for (int i = 0; i < goodList.size(); i++) {
-            Good good = goodList.get(i);
-            for (Coupon coupon : good.couponList) {
-                for (Coupon unusedCoupon : unusedCouponsList) {
-                    if (unusedCoupon.amount <= coupon.remaining) {
-                        coupon.remaining -= unusedCoupon.amount;
-                        coupon.subCouponList.add(unusedCoupon);
-                    }
-                }
-                if (coupon.remaining == 0 && coupon.subCouponList.size() != 1) {
-                    coupon.subCouponList.forEach(unusedCouponsList::remove);
-                    unusedCouponsList.add(coupon);
-                    good.couponList.remove(coupon);
-                    good.couponList.addAll(coupon.subCouponList);
-                    i--;
-                    break;
-                }
-            }
-        }
         System.out.println("优惠组合 : " + goodList.stream().map(Good::toString).collect(Collectors.joining(", ")));
         IntSummaryStatistics intSummaryStatistics = goodList.stream().map(Good::getCouponList).flatMap(List::stream)
                 .mapToInt(Coupon::getAmount).summaryStatistics();
@@ -77,7 +58,7 @@ public class Main {
 
     static class Good {
         int price;
-        List<Coupon> couponList;
+        List<Coupon> couponList = new ArrayList<>();
 
         public List<Coupon> getCouponList() {
             return couponList;
@@ -85,7 +66,6 @@ public class Main {
 
         Good(int price) {
             this.price = price;
-            this.couponList = new ArrayList<>();
         }
 
         @Override
@@ -96,8 +76,6 @@ public class Main {
 
     static class Coupon {
         int amount;
-        int remaining;
-        List<Coupon> subCouponList;
 
         public int getAmount() {
             return amount;
@@ -105,8 +83,6 @@ public class Main {
 
         Coupon(int amount) {
             this.amount = amount;
-            this.remaining = amount;
-            this.subCouponList = new ArrayList<>();
         }
 
         @Override
@@ -120,11 +96,6 @@ public class Main {
                 return amount == ((Coupon) obj).amount;
             }
             return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return amount;
         }
     }
 }
