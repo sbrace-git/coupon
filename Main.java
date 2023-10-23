@@ -26,26 +26,24 @@ public class Main {
 
         for (Good good : goodList) {
             int couponAmountMax = 0;
-            List<Coupon> couponListMax = new ArrayList<>();
             for (int outIndex = 0; outIndex < unusedCouponsList.size(); outIndex++) {
-                int remaining = good.price;
+                int price = good.price;
                 List<Coupon> couponList = new ArrayList<>();
                 int couponAmountSum = 0;
                 for (int inIndex = outIndex; inIndex < unusedCouponsList.size(); inIndex++) {
                     Coupon coupon = unusedCouponsList.get(inIndex);
-                    if (coupon.amount <= remaining) {
-                        remaining -= coupon.amount;
+                    if (coupon.amount <= price) {
+                        price -= coupon.amount;
                         couponAmountSum += coupon.amount;
                         couponList.add(coupon);
                     }
                 }
                 if (couponAmountSum >= couponAmountMax) {
                     couponAmountMax = couponAmountSum;
-                    couponListMax = couponList;
+                    good.couponList = couponList;
                 }
             }
-            good.couponList = couponListMax;
-            couponListMax.forEach(unusedCouponsList::remove);
+            good.couponList.forEach(unusedCouponsList::remove);
         }
 
         System.out.println("优惠组合 : " + goodList.stream().map(Good::toString).collect(Collectors.joining(", ")));
@@ -88,14 +86,6 @@ public class Main {
         @Override
         public String toString() {
             return String.valueOf(amount);
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof Coupon) {
-                return amount == ((Coupon) obj).amount;
-            }
-            return false;
         }
     }
 }
