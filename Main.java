@@ -3,8 +3,8 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        int[] goodPrices = {1, 10, 9, 20, 5, 10};
-        int[] coupons = {9, 8, 2, 3, 8, 12, 19};
+//        int[] goodPrices = {1, 10, 9, 20, 5, 10};
+//        int[] coupons = {9, 8, 2, 3, 8, 12, 19};
 
 //        int[] goodPrices = {3, 4};
 //        int[] coupons = {3, 1, 2, 1, 1, 1};
@@ -17,6 +17,9 @@ public class Main {
 
 //        int[] goodPrices = {4};
 //        int[] coupons = {3, 2, 2};
+
+        int[] goodPrices = {5, 8};
+        int[] coupons = {1, 2, 3, 4, 5};
 
         List<Good> goodList = Arrays.stream(goodPrices).sorted()
                 .mapToObj(Good::new).collect(Collectors.toList());
@@ -37,8 +40,10 @@ public class Main {
                         couponList.add(coupon);
                     }
                 }
-                if (couponAmountSum >= couponAmountMax) {
+                if (couponAmountSum > couponAmountMax) {
                     couponAmountMax = couponAmountSum;
+                    good.couponList = couponList;
+                } else if (couponAmountSum == couponAmountMax && couponList.size() > good.couponList.size()) {
                     good.couponList = couponList;
                 }
             }
