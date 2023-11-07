@@ -2,6 +2,7 @@ package src;
 
 import src.model.Coupon;
 import src.model.Good;
+import src.model.Result;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,8 +15,8 @@ public class Main {
                 .map(Good::new).collect(Collectors.toList());
         List<Coupon> unUsedCouponsList = Arrays.stream(coupons).boxed().sorted(Comparator.reverseOrder())
                 .map(Coupon::new).collect(Collectors.toList());
-        Result result = goodSetCouponList(goodList, new ArrayList<>(unUsedCouponsList));
 
+        Result result = goodSetCouponList(goodList, new ArrayList<>(unUsedCouponsList));
         Result result2 = goodSetCouponList(goodListReverse, unUsedCouponsList);
 
         if (result2.getSum() >= result.getSum() && result2.getCount() >= result.getCount()) {

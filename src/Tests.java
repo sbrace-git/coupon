@@ -1,5 +1,7 @@
 package src;
 
+import src.model.Result;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
