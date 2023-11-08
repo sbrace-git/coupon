@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Tests {
-    private static final Main main = new Main();
 
     public static void main(String[] args) throws Exception {
         List<Method> methodList = Arrays.asList(Tests.class.getDeclaredMethods());
@@ -23,7 +22,7 @@ public class Tests {
     }
 
     private static void test(int[] goodPrices, int[] coupons, long expectSum, long expectCount) throws Exception {
-        Result result = main.process(goodPrices, coupons);
+        Result result = Main.process(goodPrices, coupons);
         Long sum = result.getSum();
         Long count = result.getCount();
         if (sum != expectSum || expectCount != count) {

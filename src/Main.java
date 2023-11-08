@@ -8,7 +8,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
-    public Result process(int[] goodPrices, int[] coupons) {
+
+    public static void main(String[] args) {
+        int[] goodPrices = new int[]{5, 7};
+        int[] coupons = new int[]{2, 3, 4, 5};
+
+        process(goodPrices, coupons);
+    }
+
+    public static Result process(int[] goodPrices, int[] coupons) {
         List<Good> goodList = Arrays.stream(goodPrices).sorted()
                 .mapToObj(Good::new).collect(Collectors.toList());
         List<Good> goodListReverse = Arrays.stream(goodPrices).boxed().sorted(Comparator.reverseOrder())
@@ -28,7 +36,7 @@ public class Main {
         return finalResult;
     }
 
-    private Result getResult(List<Good> goodList, List<Coupon> unUsedCouponsList) {
+    private static Result getResult(List<Good> goodList, List<Coupon> unUsedCouponsList) {
         for (Good good : goodList) {
             int couponAmountMax = 0;
             for (int outIndex = 0; outIndex < unUsedCouponsList.size(); outIndex++) {
