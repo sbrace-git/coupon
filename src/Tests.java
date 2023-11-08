@@ -104,23 +104,15 @@ public class Tests {
 
     @Test
     static void test7() throws Exception {
-        Result result1;
-        {
-            Good good1 = new Good(10);
-            good1.setCouponList(Collections.singletonList(coupon1));
-            Good good2 = new Good(10);
-            good2.setCouponList(Collections.singletonList(coupon2));
-            result1 = new Result(Arrays.asList(good1, good2), Collections.emptyList());
-        }
+        Result result1 = new Result(Arrays.asList(
+                new Good(10, Collections.singletonList(coupon1)),
+                new Good(10, Collections.singletonList(coupon2))
+        ), Collections.emptyList());
 
-        Result result2;
-        {
-            Good good1 = new Good(10);
-            good1.setCouponList(Collections.singletonList(coupon4));
-            Good good2 = new Good(10);
-            good2.setCouponList(Collections.emptyList());
-            result2 = new Result(Arrays.asList(good1, good2), Collections.emptyList());
-        }
+        Result result2 = new Result(Arrays.asList(
+                new Good(10, Collections.singletonList(coupon4)),
+                new Good(10, Collections.emptyList())
+        ), Collections.emptyList());
 
         Result pick = Result.pick(result1, result2);
         assertEquals(result2, pick);
@@ -128,23 +120,15 @@ public class Tests {
 
     @Test
     static void test8() throws Exception {
-        Result result1;
-        {
-            Good good1 = new Good(10);
-            good1.setCouponList(Collections.singletonList(coupon1));
-            Good good2 = new Good(10);
-            good2.setCouponList(Collections.singletonList(coupon2));
-            result1 = new Result(Arrays.asList(good1, good2), Collections.emptyList());
-        }
+        Result result1 = new Result(Arrays.asList(
+                new Good(10, Arrays.asList(coupon1, coupon2)),
+                new Good(10, Collections.emptyList())
+        ), Collections.emptyList());
 
-        Result result2;
-        {
-            Good good1 = new Good(10);
-            good1.setCouponList(Collections.singletonList(coupon3));
-            Good good2 = new Good(10);
-            good2.setCouponList(Collections.emptyList());
-            result2 = new Result(Arrays.asList(good1, good2), Collections.emptyList());
-        }
+        Result result2 = new Result(Arrays.asList(
+                new Good(10, Collections.singletonList(coupon3)),
+                new Good(10, Collections.emptyList())
+        ), Collections.emptyList());
 
         Result pick = Result.pick(result1, result2);
         assertEquals(result1, pick);

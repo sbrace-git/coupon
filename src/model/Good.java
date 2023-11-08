@@ -25,6 +25,11 @@ public class Good {
         this.couponList = new ArrayList<>();
     }
 
+    public Good(int price, List<Coupon> couponList) {
+        this.price = price;
+        this.couponList = couponList;
+    }
+
     @Override
     public String toString() {
         return String.format("[%d]-%s", price, couponList);
