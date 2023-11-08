@@ -5,14 +5,19 @@ import src.model.Result;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class Tests {
     private static final Main main = new Main();
 
     public static void main(String[] args) throws Exception {
-        for (Method declaredMethod : Tests.class.getDeclaredMethods()) {
-            if (declaredMethod.isAnnotationPresent(Test.class)) {
-                declaredMethod.invoke(null, null);
+        List<Method> methodList = Arrays.asList(Tests.class.getDeclaredMethods());
+        methodList.sort(Comparator.comparing(Method::getName));
+        for (Method method : methodList) {
+            if (method.isAnnotationPresent(Test.class)) {
+                method.invoke(null, null);
             }
         }
     }
@@ -27,8 +32,12 @@ public class Tests {
         }
     }
 
+    @Retention(RetentionPolicy.RUNTIME)
+    private @interface Test {
+    }
+
     @Test
-    public static void test1() throws Exception {
+    static void test1() throws Exception {
         int[] goodPrices = {1, 10, 9, 20, 5, 10};
         int[] coupons = {9, 8, 2, 3, 8, 12, 19};
         long expectSum = 49;
@@ -37,7 +46,7 @@ public class Tests {
     }
 
     @Test
-    public static void test2() throws Exception {
+    static void test2() throws Exception {
         int[] goodPrices = {3, 4};
         int[] coupons = {3, 1, 2, 1, 1, 1};
         long expectSum = 7;
@@ -46,7 +55,7 @@ public class Tests {
     }
 
     @Test
-    public static void test3() throws Exception {
+    static void test3() throws Exception {
         int[] goodPrices = {3, 4};
         int[] coupons = {3, 2, 2};
         long expectSum = 7;
@@ -55,7 +64,7 @@ public class Tests {
     }
 
     @Test
-    public static void test4() throws Exception {
+    static void test4() throws Exception {
         int[] goodPrices = {4};
         int[] coupons = {3, 2, 2};
         long expectSum = 4;
@@ -64,7 +73,7 @@ public class Tests {
     }
 
     @Test
-    public static void test5() throws Exception {
+    static void test5() throws Exception {
         int[] goodPrices = {5, 8};
         int[] coupons = {1, 2, 3, 4, 5};
         long expectSum = 13;
@@ -73,15 +82,11 @@ public class Tests {
     }
 
     @Test
-    public static void test6() throws Exception {
+    static void test6() throws Exception {
         int[] goodPrices = {5, 7};
         int[] coupons = {2, 3, 4, 5};
         long expectSum = 11;
         long expectCount = 3;
         test(goodPrices, coupons, expectSum, expectCount);
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    private @interface Test {
     }
 }

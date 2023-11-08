@@ -11,10 +11,6 @@ public class Good {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public List<Coupon> getCouponList() {
         return couponList;
     }

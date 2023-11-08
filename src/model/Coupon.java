@@ -7,10 +7,6 @@ public class Coupon {
         return amount;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public Coupon(int amount) {
         this.amount = amount;
     }
