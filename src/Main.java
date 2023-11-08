@@ -52,8 +52,6 @@ public class Main {
             }
             good.getCouponList().forEach(unUsedCouponsList::remove);
         }
-        IntSummaryStatistics intSummaryStatistics = goodList.stream().map(Good::getCouponList).flatMap(List::stream)
-                .mapToInt(Coupon::getAmount).summaryStatistics();
-        return new Result(intSummaryStatistics.getSum(), intSummaryStatistics.getCount(), goodList, unUsedCouponsList);
+        return new Result(goodList, unUsedCouponsList);
     }
 }

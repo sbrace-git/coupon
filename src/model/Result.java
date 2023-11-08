@@ -1,7 +1,6 @@
 package src.model;
 
-import src.model.Coupon;
-
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,11 +11,24 @@ public class Result {
     private List<Good> goodList;
     private List<Coupon> unUsedCouponList;
 
-    public Result(Long sum, Long count, List<Good> goodList, List<Coupon> unUsedCouponList) {
-        this.sum = sum;
-        this.count = count;
+    public Result(List<Good> goodList, List<Coupon> unUsedCouponList) {
         this.goodList = goodList;
         this.unUsedCouponList = unUsedCouponList;
+        init();
+    }
+
+    private void init() {
+        IntSummaryStatistics intSummaryStatistics = goodList.stream().map(Good::getCouponList).flatMap(List::stream)
+                .mapToInt(Coupon::getAmount).summaryStatistics();
+        sum = intSummaryStatistics.getSum();
+        count = intSummaryStatistics.getCount();
+    }
+
+    public void print() {
+        System.out.println("优惠组合 : " + goodList.stream().map(Good::toString).collect(Collectors.joining(", ")));
+        System.out.println("优惠金额 : " + sum);
+        System.out.println("使用优惠卷数量 : " + count);
+        System.out.printf("未使用的优惠卷 : %s%n%n", unUsedCouponList);
     }
 
     public Long getSum() {
@@ -49,13 +61,6 @@ public class Result {
 
     public void setUnUsedCouponList(List<Coupon> unUsedCouponList) {
         this.unUsedCouponList = unUsedCouponList;
-    }
-
-    public void print() {
-        System.out.println("优惠组合 : " + goodList.stream().map(Good::toString).collect(Collectors.joining(", ")));
-        System.out.println("优惠金额 : " + sum);
-        System.out.println("使用优惠卷数量 : " + count);
-        System.out.printf("未使用的优惠卷 : %s%n%n", unUsedCouponList);
     }
 
 }
