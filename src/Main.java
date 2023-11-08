@@ -26,7 +26,7 @@ public class Main {
         System.out.println("优惠组合 : " + goodList.stream().map(Good::toString).collect(Collectors.joining(", ")));
         System.out.println("优惠金额 : " + result.getSum());
         System.out.println("使用优惠卷数量 : " + result.getCount());
-        System.out.printf("未使用的优惠卷 : %s%n%n", unUsedCouponsList);
+        System.out.printf("未使用的优惠卷 : %s%n%n", result.getUnUsedCouponList());
         return result;
     }
 
