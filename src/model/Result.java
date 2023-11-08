@@ -1,7 +1,6 @@
 package src.model;
 
-import java.util.IntSummaryStatistics;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Result {
@@ -31,6 +30,11 @@ public class Result {
         System.out.printf("未使用的优惠券 : %s%n%n", unUsedCouponList);
     }
 
+    public static Result pick(Result... resultArray) {
+        return Arrays.stream(resultArray).max(Comparator.comparing(Result::getSum).thenComparing(Result::getCount))
+                .orElse(null);
+    }
+
     public Long getSum() {
         return sum;
     }
@@ -39,4 +43,24 @@ public class Result {
         return count;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Result result = (Result) o;
+        return Objects.equals(sum, result.sum) && Objects.equals(count, result.count);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sum, count);
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "sum=" + sum +
+                ", count=" + count +
+                '}';
+    }
 }

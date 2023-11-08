@@ -13,7 +13,8 @@ public class Main {
         int[] goodPrices = new int[]{5, 7};
         int[] coupons = new int[]{2, 3, 4, 5};
 
-        process(goodPrices, coupons);
+        Result result = process(goodPrices, coupons);
+        result.print();
     }
 
     public static Result process(int[] goodPrices, int[] coupons) {
@@ -27,13 +28,7 @@ public class Main {
         Result result1 = getResult(goodList, new ArrayList<>(unUsedCouponsList));
         Result result2 = getResult(goodListReverse, unUsedCouponsList);
 
-        Result finalResult = result1;
-        if (result2.getSum() >= result1.getSum() && result2.getCount() >= result1.getCount()) {
-            finalResult = result2;
-        }
-
-        finalResult.print();
-        return finalResult;
+        return Result.pick(result1, result2);
     }
 
     private static Result getResult(List<Good> goodList, List<Coupon> unUsedCouponsList) {

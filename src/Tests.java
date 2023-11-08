@@ -1,13 +1,13 @@
 package src;
 
+import src.model.Coupon;
+import src.model.Good;
 import src.model.Result;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Tests {
 
@@ -19,16 +19,24 @@ public class Tests {
                 method.invoke(null, null);
             }
         }
+        System.out.println("Tests passed.");
+    }
+
+    private static void assertEquals(Object expect, Object actual) throws Exception {
+        if (!Objects.equals(expect, actual)) {
+            System.out.println("expect: " + expect);
+            System.out.println("actual: " + actual);
+            throw new Exception("not equals");
+        }
     }
 
     private static void test(int[] goodPrices, int[] coupons, long expectSum, long expectCount) throws Exception {
         Result result = Main.process(goodPrices, coupons);
+        result.print();
         Long sum = result.getSum();
         Long count = result.getCount();
-        if (sum != expectSum || expectCount != count) {
-            System.out.printf("expectSum = %d, sum = %d, expectCount = %d, count = %d%n", expectSum, sum, expectCount, count);
-            throw new Exception("error");
-        }
+        assertEquals(expectSum, sum);
+        assertEquals(expectCount, count);
     }
 
     @Retention(RetentionPolicy.RUNTIME)
@@ -87,5 +95,58 @@ public class Tests {
         long expectSum = 11;
         long expectCount = 3;
         test(goodPrices, coupons, expectSum, expectCount);
+    }
+
+    private static final Coupon coupon1 = new Coupon(1);
+    private static final Coupon coupon2 = new Coupon(2);
+    private static final Coupon coupon3 = new Coupon(3);
+    private static final Coupon coupon4 = new Coupon(4);
+
+    @Test
+    static void test7() throws Exception {
+        Result result1;
+        {
+            Good good1 = new Good(10);
+            good1.setCouponList(Collections.singletonList(coupon1));
+            Good good2 = new Good(10);
+            good2.setCouponList(Collections.singletonList(coupon2));
+            result1 = new Result(Arrays.asList(good1, good2), Collections.emptyList());
+        }
+
+        Result result2;
+        {
+            Good good1 = new Good(10);
+            good1.setCouponList(Collections.singletonList(coupon4));
+            Good good2 = new Good(10);
+            good2.setCouponList(Collections.emptyList());
+            result2 = new Result(Arrays.asList(good1, good2), Collections.emptyList());
+        }
+
+        Result pick = Result.pick(result1, result2);
+        assertEquals(result2, pick);
+    }
+
+    @Test
+    static void test8() throws Exception {
+        Result result1;
+        {
+            Good good1 = new Good(10);
+            good1.setCouponList(Collections.singletonList(coupon1));
+            Good good2 = new Good(10);
+            good2.setCouponList(Collections.singletonList(coupon2));
+            result1 = new Result(Arrays.asList(good1, good2), Collections.emptyList());
+        }
+
+        Result result2;
+        {
+            Good good1 = new Good(10);
+            good1.setCouponList(Collections.singletonList(coupon3));
+            Good good2 = new Good(10);
+            good2.setCouponList(Collections.emptyList());
+            result2 = new Result(Arrays.asList(good1, good2), Collections.emptyList());
+        }
+
+        Result pick = Result.pick(result1, result2);
+        assertEquals(result1, pick);
     }
 }
