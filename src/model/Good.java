@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Good {
-    int price;
+    Integer price;
     private List<Coupon> couponList;
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
@@ -19,13 +19,12 @@ public class Good {
         this.couponList = couponList;
     }
 
-
-    public Good(int price) {
+    public Good(Integer price) {
         this.price = price;
         this.couponList = new ArrayList<>();
     }
 
-    public Good(int price, List<Coupon> couponList) {
+    public Good(Integer price, List<Coupon> couponList) {
         this.price = price;
         this.couponList = couponList;
     }

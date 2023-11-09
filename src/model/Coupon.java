@@ -1,13 +1,13 @@
 package src.model;
 
 public class Coupon {
-    int amount;
+    Integer amount;
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public Coupon(int amount) {
+    public Coupon(Integer amount) {
         this.amount = amount;
     }
 

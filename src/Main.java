@@ -18,8 +18,7 @@ public class Main {
     }
 
     public static Result process(int[] goodPrices, int[] coupons) {
-        List<Good> goodList = Arrays.stream(goodPrices).sorted()
-                .mapToObj(Good::new).collect(Collectors.toList());
+        List<Good> goodList = Arrays.stream(goodPrices).sorted().mapToObj(Good::new).collect(Collectors.toList());
         List<Good> goodListReverse = Arrays.stream(goodPrices).boxed().sorted(Comparator.reverseOrder())
                 .map(Good::new).collect(Collectors.toList());
         List<Coupon> unUsedCouponsList = Arrays.stream(coupons).boxed().sorted(Comparator.reverseOrder())
